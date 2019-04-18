@@ -1,6 +1,6 @@
 # lucene-query
 
-A Clojure library designed to ... well, that part is up to you.
+A parser for Apache Lucene Classic Queries.
 
 ## Usage
 
