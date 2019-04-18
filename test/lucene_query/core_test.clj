@@ -1,20 +1,22 @@
 (ns lucene-query.core-test
-  (:require [lucene-query.core :as lq]
+  (:require [clojure.test :refer :all]
+            [lucene-query.core :as lq]
             [midje.sweet :as midje]))
 
 (def str->ast->str (comp lq/ast->str lq/str->ast))
 
 (defn roundtrip [q] (midje/fact str->ast->str q => q))
 
-(midje/facts
- "about str->ast->str"
- (roundtrip "-test OR +test2")
- (roundtrip "!test OR test3")
- (roundtrip "!test OR [* TO 2019-01-01]")
- (roundtrip "/te\\/st/")
- (roundtrip "\"test \\\" 1\"~2")
- (roundtrip "autor:me^a OR def:\"*gu\\*t*\"")
- (roundtrip "autor:test AND form:*te")
- (roundtrip "status:(Red-f OR Red-2 OR Artikelrump*)")
- (roundtrip "status:(Red-f OR Red-2 OR Artikelrump*) AND !autor:me"))
-
+(deftest roundtrip
+  (let [str->ast->str (comp lq/ast->str lq/str->ast)
+        rt (fn [q] (midje/fact str->ast->str q => q))]
+    (midje/facts
+     (rt "-test OR +test2")
+     (rt "!test OR test3")
+     (rt "!test OR [* TO 2019-01-01]")
+     (rt "/te\\/st/")
+     (rt "\"test \\\" 1\"~2")
+     (rt "autor:me^a OR def:\"*gu\\*t*\"")
+     (rt "autor:test AND form:*te")
+     (rt "status:(Red-f OR Red-2 OR Artikelrump*)")
+     (rt "status:(Red-f OR Red-2 OR Artikelrump*) AND !autor:me"))))
