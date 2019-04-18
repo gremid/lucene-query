@@ -2,8 +2,10 @@
   :description "Parser for Apache Lucene Classic Queries"
 
   :url "http://example.com/FIXME"
-  :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
-            :url "https://www.eclipse.org/legal/epl-2.0/"}
+  :license {:name "GNU Lesser General Public License v3.0"
+            :url "https://www.gnu.org/licenses/lgpl-3.0"
+            :year 2019
+            :key "lgpl-3.0"}
 
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [instaparse "1.4.10"]]
