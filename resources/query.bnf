@@ -5,9 +5,13 @@ clause = mods? <ws*> (field <':'>)? (range-query / sub-query / value-query)
 <mods> = must | must-not | not
 
 field = all / term
+
+<value-query> = value ((boost fuzzy?) / (fuzzy boost?))?
+<range-query> = range boost?
+<sub-query> = <'('> query <')'> boost?
+
 value = all
       / term
-      / prefixed
       / pattern
       / regexp      
       / quoted
@@ -16,16 +20,8 @@ value = all
 bound = all / term / quoted / number
 range = ('[' | '{') bound <ws+> <'TO'> <ws+> bound (']'|'}')
 
-<value-query> = value ((boost fuzzy?) / (fuzzy boost?))?
-<range-query> = range boost?
-<sub-query> = <'('> query <')'> boost?
-
-<num-char> = #'[0-9]'
-<escaped-char> = #'\\.'
-<term-start-char> = #'[^ \t\n\r\u3000\+\-\!\(\)\:\^\[\]\"\{\}\~\*\?\\/]' | escaped-char
-<term-char> = term-start-char | '-' | '+'
-<ws> = #'[ \t\n\r\u3000]'
-<quoted-char> = #'[^"\\]' | escaped-char
+boost = <'^'> number
+fuzzy = <'~'> ((num-char)+ (('.' num-char+)? term-char*) | term-char*)
 
 and = <'AND'> | <'&&'>
 or = <'OR'> | <'||'>
@@ -33,14 +29,16 @@ not = <'NOT'> | <'!'>
 must = <'+'>
 must-not = <'-'>
 all = <'*'>
-<number> = num-char+ ('.' num-char+)?
 
-boost = <'^'> number
-fuzzy = <'~'> ((num-char)+ (('.' num-char+)? term-char*) | term-char*)
-
-<term> = term-start-char term-char*
-<prefixed> = '*' | (term-start-char term-char* '*')
-<pattern> = (term-start-char | '*' | '?') (term-char | '*' | '?')*
+term = term-start-char term-char*
+pattern = (term-start-char | '*' | '?') (term-char | '*' | '?')*
 quoted = <'"'> quoted-char* <'"'>
 regexp = <'/'> #'((\\/)|[^/])+' <'/'>
 
+<num-char> = #'[0-9]'
+<number> = num-char+ ('.' num-char+)?
+<escaped-char> = #'\\.'
+<term-start-char> = #'[^ \t\n\r\u3000\+\-\!\(\)\:\^\[\]\"\{\}\~\*\?\\/]' | escaped-char
+<term-char> = term-start-char | '-' | '+'
+<ws> = #'[ \t\n\r\u3000]'
+<quoted-char> = #'[^"\\]' | escaped-char
