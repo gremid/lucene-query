@@ -1,4 +1,4 @@
-(defproject gremid/lucene-query "0.1.0-SNAPSHOT"
+(defproject gremid/lucene-query "0.1.0"
 
   :description "Parser for Apache Lucene Classic Queries"
   :url "https://github.com/gremid/lucene-query"
