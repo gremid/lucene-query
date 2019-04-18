@@ -11,7 +11,9 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [instaparse "1.4.10"]]
 
-  :deploy-repositories [["releases" :clojars]
-                        ["snapshots" :clojars]]
+  :profiles {:dev {:dependencies [[midje "1.9.8"]]}}
+
+  :deploy-repositories [["releases" {:url "https://repo.clojars.org/" :creds :gpg}]
+                        ["snapshots" {:url "https://repo.clojars.org/" :creds :gpg}]]
 
   :repl-options {:init-ns lucene-query.core})

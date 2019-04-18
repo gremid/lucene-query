@@ -8,7 +8,7 @@ field = all / term
 
 <value-query> = value ((boost fuzzy?) / (fuzzy boost?))?
 <range-query> = range boost?
-<sub-query> = <'('> query <')'> boost?
+sub-query = <'('> query <')'> boost?
 
 value = all
       / term
