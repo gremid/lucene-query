@@ -17,7 +17,7 @@ value = all
       / quoted
       / number
 
-bound = all / term / quoted / number
+<bound> = all / term / quoted / number
 range = ('[' | '{') bound <ws+> <'TO'> <ws+> bound (']'|'}')
 
 boost = <'^'> number
@@ -28,8 +28,8 @@ or = <'OR'> | <'||'>
 not = <'NOT'> | <'!'>
 must = <'+'>
 must-not = <'-'>
-all = <'*'>
 
+all = '*'
 term = term-start-char term-char*
 pattern = (term-start-char | '*' | '?') (term-char | '*' | '?')*
 quoted = <'"'> quoted-char* <'"'>

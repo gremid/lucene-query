@@ -27,21 +27,22 @@
   ([type] (str-node type identity))
   ([type unescape-fn] (fn [& args] [type (->> args (apply str) unescape-fn)])))
 
-(def ast->ast (partial transform {:all (constantly :all)
-                                  :term (str-node :term unescape-term)
+(def ast->ast (partial transform {:term (str-node :term unescape-term)
                                   :pattern (str-node :pattern unescape-pattern)
                                   :regexp (str-node :regexp unescape-regexp)
                                   :quoted (str-node :quoted unescape-quoted)
                                   :fuzzy (str-node :fuzzy)
                                   :boost (str-node :boost)}))
 
-(def str->ast (comp ast->ast parse-str))
+(defn error->ex [r] (if (vector? r) r (throw (ex-info "Parser failed" r))))
+
+(def str->ast (comp error->ex ast->ast parse-str))
 
 (defn ast->str [[type & [arg :as args]]]
   (condp = type
     :sub-query (str "(" (apply str (map ast->str args)) ")")
     :range (let [[lp lo up rp] args]
-             (str lp " " (ast->str lo) " TO " (ast->str up) rp))
+             (str lp (ast->str lo) " TO " (ast->str up) rp))
 
     :field (str (apply str (map ast->str args)) ":")
     :boost (str "^" arg)
