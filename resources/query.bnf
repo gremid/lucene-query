@@ -39,6 +39,6 @@ regexp = <'/'> #'((\\/)|[^/])+' <'/'>
 <number> = num-char+ ('.' num-char+)?
 <escaped-char> = #'\\.'
 <term-start-char> = #'[^ \t\n\r\u3000\+\-\!\(\)\:\^\[\]\"\{\}\~\*\?\\/]' | escaped-char
-<term-char> = term-start-char | '-' | '+'
+<term-char> = term-start-char | '-' | '+' | '/'
 <ws> = #'[ \t\n\r\u3000]'
 <quoted-char> = #'[^"\\]' | escaped-char

@@ -7,6 +7,7 @@
   (let [str->ast->str (comp lucene/ast->str lucene/str->ast)
         roundtrip #(midje/fact (str->ast->str %) => %)]
     (midje/facts
+     (roundtrip "quelle:a/b")
      (roundtrip "-*:test OR +test2")
      (roundtrip "!test OR test3")
      (roundtrip "!test OR [* TO 2019-01-01]")
